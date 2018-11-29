@@ -12,27 +12,39 @@
     <link rel="stylesheet" href="css/login.css" type="text/css"></link>
     <script type="text/javascript" src="script/jquery.js"></script>
     <script type="text/javascript" src="script/common.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript">
 
         $(function () {
             //点击更换验证码：
             $("#captchaImage").click(function () {//点击更换验证码
-                alert("自己做");
-            });
-
-            //  form 表单提交
-            $("#loginForm").bind("submit", function () {
-                alert("自己做");
-                return false;
+                var img = document.getElementById("captchaImage");
+                img.src = "defaultKaptcha?" + new Date().getTime();
             });
         });
+        function dologin() {
+            //  form 表单提交
+            $("#loginForm").form("submit", {
+                url: "${pageContext.request.contextPath}/admin/login",
+                success: function (data) {
+//                    返回的是一个json串 解析json
+                    var a = JSON.parse(data);
+                    if (a.true) {
+//                        验证成功 调转到主页面
+                        window.location.href = "main/main.jsp";
+                    } else {
+                        alert("账号或密码错误!!")
+                    }
+                }
+            })
+        }
     </script>
 </head>
 <body>
 
 <div class="login">
-    <form id="loginForm" action="../back/index.html" method="post">
-
+    <form id="loginForm" method="post">
         <table>
             <tbody>
             <tr>
@@ -43,7 +55,7 @@
                     用户名:
                 </th>
                 <td>
-                    <input type="text" name="user.name" class="text" value="xxx" maxlength="20"/>
+                    <input type="text" name="name" class="text" value="root" maxlength="20"/>
                 </td>
             </tr>
             <tr>
@@ -51,7 +63,7 @@
                     密&nbsp;&nbsp;&nbsp;码:
                 </th>
                 <td>
-                    <input type="password" name="user.password" class="text" value="xxx" maxlength="20"
+                    <input type="password" name="password" class="text" value="123456" maxlength="20"
                            autocomplete="off"/>
                 </td>
             </tr>
@@ -61,7 +73,7 @@
                 <th>验证码:</th>
                 <td>
                     <input type="text" id="enCode" name="enCode" class="text captcha" maxlength="4" autocomplete="off"/>
-                    <img id="captchaImage" class="captchaImage" src="img/captcha.jpg" title="点击更换验证码"/>
+                    <img id="captchaImage" class="captchaImage" src="defaultKaptcha" title="点击更换验证码"/>
                 </td>
             </tr>
             <tr>
@@ -76,9 +88,8 @@
                 <td>&nbsp;</td>
                 <th>&nbsp;</th>
                 <td>
-                    <input type="button" class="homeButton" value="" onclick="location.href='/'"><input type="submit"
-                                                                                                        class="loginButton"
-                                                                                                        value="登录">
+                    <input type="button" class="homeButton" value="" onclick="location.href='/'">
+                    <input type="button" onclick="dologin()" class="loginButton" value="登录">
                 </td>
             </tr>
             </tbody>

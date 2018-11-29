@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.MenuDao">
+    <resultMap id="MenuResultMap" type="com.baizhi.entity.Menu">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="parentid" property="parentid"/>
+        <result column="iconCls" property="iconCls"/>
+        <result column="url" property="url"/>
+
+        <collection property="menus" javaType="java.util.List" ofType="com.baizhi.entity.Menu">
+            <result column="bid" property="id"/>
+            <result column="btitle" property="title"/>
+            <result column="bpid" property="parentid"/>
+            <result column="biconCls" property="iconCls"/>
+            <result column="burl" property="url"/>
+        </collection>
+    </resultMap>
+
+    <select id="getAll" resultMap="MenuResultMap">
+        SELECT a.*,b.id bid,b.title btitle,b.parentid bpid,b.iconCls biconCls,b.url burl from menu a INNER JOIN menu b
+        ON a.id=b.parentid
+    </select>
+</mapper>

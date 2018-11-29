@@ -5,7 +5,7 @@
 <mapper namespace="com.baizhi.dao.AlbumDao">
     <resultMap id="AlbumMap" type="com.baizhi.entity.Album">
         <result column="id" property="id"/>
-        <result column="title" property="title"/>
+        <result column="title" property="title "/>
         <result column="coverImg" property="coverImg"/>
         <result column="count" property="count"/>
         <result column="score" property="score"/>
