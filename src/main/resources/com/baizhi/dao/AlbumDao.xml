@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <resultMap id="AlbumMap" type="com.baizhi.entity.Album">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="coverImg" property="coverImg"/>
+        <result column="count" property="count"/>
+        <result column="score" property="score"/>
+        <result column="author" property="author"/>
+        <result column="broadCast" property="broadCast"/>
+        <result column="brief" property="brief"/>
+        <result column="publishDate" property="publishDate"/>
+
+        <collection property="children" javaType="java.util.List" ofType="com.baizhi.entity.Chapter">
+            <result column="cid" property="id"/>
+            <result column="ctitle" property="title"/>
+            <result column="curl" property="url"/>
+            <result column="csize" property="size"/>
+            <result column="ctime" property="time"/>
+        </collection>
+    </resultMap>
+    <select id="getAll" resultMap="AlbumMap">
+			select a.*,c.id cid,c.title ctitle,c.url curl,c.size csize,c.time ctime from album a LEFT JOIN chapter c on a.id=c.aid
+		</select>
+</mapper>
